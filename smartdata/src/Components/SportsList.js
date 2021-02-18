@@ -39,7 +39,9 @@ export function SportsList(props){
                         </div>
                         <div className={props.ArrowResult.indexOf(e.key) !== -1 ? 'menu__border__on views' : 'menu__border__off views'}>
                             <a href='/'>{e.views}</a>
-                            <span><i onClick={props.SetSelectedSportKeyToState} id={e.key} className={elementKeyFromState.indexOf(e.key) !== -1 ? "star checked fa fa-star" : "star fa fa-star"}></i></span>
+                            <span>
+                                <i onClick={props.SetSelectedSportKeyToState} id={e.key} className={elementKeyFromState.indexOf(e.key) !== -1 ? "star checked fa fa-star" : "star fa fa-star"}></i>
+                            </span>
                         </div>
                     </div>
                     {props.ArrowResult.indexOf(e.key) !== -1 ? <SecondMenu ArrowResultSecondMenu={props.ArrowResultSecondMenu} setArrowStatusToStateSecondMenu={props.setArrowStatusToStateSecondMenu} SecondMenuInfo={e.nodes} ArrowResult={props.ArrowResult}/> : null} 
