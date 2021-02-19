@@ -1,5 +1,5 @@
 import React from 'react';
-import { SportsList } from './SportsList'
+import { SportsList } from './SportsMenu/SportsList'
 
 export function Sports(props){
     return (
@@ -7,12 +7,16 @@ export function Sports(props){
             <h1>Sports</h1>
             <SportsList 
                 LiveArrowStatusResult={props.LiveArrowStatusResult} 
-                LiveArrowStatusToState={props.LiveArrowStatusToState} 
+                LiveArrowStatusToState={props.LiveArrowStatusToState}
+
                 ArrowResultSecondMenu={props.ArrowResultSecondMenu} 
-                ArrowResult={props.ArrowResult} 
+                ArrowResult={props.ArrowResult}
+
                 setArrowStatusToStateSecondMenu={props.setArrowStatusToStateSecondMenu} 
-                setArrowStatusToState={props.setArrowStatusToState} 
-                FullSportArray={props.FullSportArray} 
+                setArrowStatusToState={props.setArrowStatusToState}
+
+                sportArray={props.sportArray}
+                 
                 SetClassNameForStars={props.SetClassNameForStars} 
                 SetSelectedSportKeyToState={props.SetSelectedSportKeyToState}/>
         </div>

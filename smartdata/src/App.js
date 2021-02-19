@@ -1,9 +1,9 @@
 import './Styles/styles.scss';
 import React, { Component } from 'react';
 import { Main } from './Components/Main';
-import { SetItemToLocalStorage } from './Components/Functions/SetToLocalStorage';
-import { GetKeyFromLocalStorage} from './Components/Functions/GetFromLocalStorage';
-import { FullSportArray } from "./Components/Functions/SportArray";
+import { SetFavKeysToLocalStorage, SetFavSportsToLocalStorage } from './Components/01Functions/SetToLocalStorage';
+import { GetFavKeysFromLocalStorage, GetFavSportsFromLocalStorage} from './Components/01Functions/GetFromLocalStorage';
+import { sportArray } from "./Components/01Functions/SportArray";
 
 
 class App extends Component {
@@ -11,16 +11,21 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedKeys: (GetKeyFromLocalStorage() ? GetKeyFromLocalStorage() : [] ), 
-      fullSelectedSportElement: [],
-      fullSportArray: FullSportArray,
+      selectedKeys: (GetFavKeysFromLocalStorage() ? GetFavKeysFromLocalStorage() : [] ), 
+      selectedSportArray: (GetFavSportsFromLocalStorage() ? GetFavSportsFromLocalStorage() : []),
+      sportArray: sportArray,
       arrowStatus: [],
-      arrowStatusSecond: [],
+      secondArrowStatus: [],
       liveArrowStatus: false,
+      arrowStatusForFavorites: [],
+      secondArrowStatusForFavorites: [],
     }
   }
   
-  SetSelectedSportKeyToState = e => {
+  
+  /*          Functions for "Sports" Menu          */
+  
+  setSelectedSportKeyToState = e => {
     let elementKey = e.target.id;
     let selectedKeys;
 
@@ -29,17 +34,15 @@ class App extends Component {
     } else if (this.state.selectedKeys.indexOf(elementKey) !== -1){
         selectedKeys = this.state.selectedKeys.filter(elem => {return elem !== elementKey});
     } 
-
-    console.log('click', selectedKeys, this.state.fullSportArray)
     
     this.setState({
-      selectedKeys: selectedKeys,
-      fullSelectedSportElement: this.getSelectedSports(selectedKeys)
+      selectedKeys,
+      selectedSportArray: this.getSelectedSports(selectedKeys)
     });
   }
   
-  getSelectedSports = (selectedKeys) => {
-    return this.state.fullSportArray.filter(s => selectedKeys.includes(s))
+  getSelectedSports = (selectedKey) => {
+    return this.state.sportArray.filter(s => selectedKey.includes(s.key))
   }
 
   setArrowStatusToState = e => {
@@ -55,9 +58,12 @@ class App extends Component {
 
   setArrowStatusToStateSecondMenu = e => {
     let arrow = e.target.id
+    let secondArrowStatus = this.state.secondArrowStatus.indexOf(arrow) === -1 
+      ? this.state.secondArrowStatus.concat([arrow]) 
+      : this.state.secondArrowStatus.filter(elem => {return elem !== arrow})
 
     this.setState({
-      arrowStatusSecond: this.state.arrowStatusSecond.indexOf(arrow) === -1 ? this.state.arrowStatusSecond.concat([arrow]) : this.state.arrowStatusSecond.filter(elem => {return elem !== arrow})
+      secondArrowStatus
     })
   }
 
@@ -67,24 +73,88 @@ class App extends Component {
     })
 
   }
+
+  /*          Functions for "Favorites" Menu          */
+
+  setArrowStatusForFavoritesToState = e => {
+    let arrow = e.target.id;
+
+    let arrowStatusForFavorites = this.state.arrowStatusForFavorites.indexOf(arrow) === -1 
+      ? this.state.arrowStatusForFavorites.concat([arrow]) 
+      : this.state.arrowStatusForFavorites.filter(elem => {return elem !== arrow});
+    
+    this.setState({
+      arrowStatusForFavorites
+    });
+  }
+
+  setArrowStatusForFavoritesToStateSecondMenu = e => {
+    let arrow = e.target.id;
+
+    let secondArrowStatusForFavorites = this.state.secondArrowStatusForFavorites.indexOf(arrow) === -1 
+      ? this.state.secondArrowStatusForFavorites.concat([arrow]) 
+      : this.state.secondArrowStatusForFavorites.filter(elem => {return elem !== arrow});
+    
+    this.setState({
+      secondArrowStatusForFavorites
+    });
+  }  
+
+  deleteItemFromFavorites = e => {
+    let elementKey = e.target.id;
+    let selectedKeys;
+
+    if (this.state.selectedKeys.indexOf(elementKey) !== -1){
+        selectedKeys = this.state.selectedKeys.filter(elem => {return elem !== elementKey});
+    } 
+    
+    this.setState({
+      selectedKeys,
+      selectedSportArray: this.getSelectedSports(selectedKeys)
+    });
+
+    
+
+    // SetFavKeysToLocalStorage(LocalStorage)
+
+    // console.log("delete",selectedElement, localStorage.map(item => item))
+
+  }
   
   componentDidUpdate() {  
-    SetItemToLocalStorage(this.state.selectedKeys);
+    SetFavKeysToLocalStorage(this.state.selectedKeys);
+    SetFavSportsToLocalStorage(this.state.selectedSportArray)  
   }
 
   render() {
     console.log( 'state', this.state)
     return (
       <Main 
-        LiveArrowStatusResult={this.state.liveArrowStatus} 
-        LiveArrowStatusToState={this.LiveArrowStatusToState} 
-        ArrowResultSecondMenu={this.state.arrowStatusSecond} 
-        setArrowStatusToStateSecondMenu={this.setArrowStatusToStateSecondMenu} 
-        ArrowResult={this.state.arrowStatus} 
+
+        LiveArrowStatusToState = {this.LiveArrowStatusToState} 
+        LiveArrowStatusResult = {this.state.liveArrowStatus} 
+        
+        setArrowStatusToStateSecondMenu = {this.setArrowStatusToStateSecondMenu} 
+        ArrowResultSecondMenu = {this.state.secondArrowStatus} 
+
         setArrowStatusToState={this.setArrowStatusToState} 
-        FullSportArray={this.state.fullSportArray} 
-        SetClassNameForStars={this.state.selectedKeys} 
-        SetSelectedSportKeyToState={this.SetSelectedSportKeyToState} />
+        ArrowResult = {this.state.arrowStatus} 
+
+        sportArray = {this.state.sportArray} 
+
+        SetSelectedSportKeyToState = {this.setSelectedSportKeyToState}
+        SetClassNameForStars = {this.state.selectedKeys} 
+        
+        selectedSportArray = {this.state.selectedSportArray}
+
+        setArrowStatusForFavoritesToState = {this.setArrowStatusForFavoritesToState}
+        ArrowStatusResultForFavorites = {this.state.arrowStatusForFavorites}
+
+        setArrowStatusForFavoritesToStateSecondMenu={this.setArrowStatusForFavoritesToStateSecondMenu} 
+        ArrowStatusResultForFavoritesSecondMenu = {this.state.secondArrowStatusForFavorites}
+
+        DeleteItemFromFavorites={this.deleteItemFromFavorites}
+      />
     );
   }
 }
