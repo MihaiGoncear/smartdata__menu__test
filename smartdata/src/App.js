@@ -1,9 +1,9 @@
 import './Styles/styles.scss';
 import React, { Component } from 'react';
 import { Main } from './Components/Main';
-import { SetFavKeysToLocalStorage, SetFavSportsToLocalStorage } from './Components/01Functions/SetToLocalStorage';
-import { GetFavKeysFromLocalStorage, GetFavSportsFromLocalStorage} from './Components/01Functions/GetFromLocalStorage';
-import { sportArray } from "./Components/01Functions/SportArray";
+import { SetFavKeysToLocalStorage, SetFavSportsToLocalStorage } from './Components/Functions/SetToLocalStorage';
+import { GetFavKeysFromLocalStorage, GetFavSportsFromLocalStorage} from './Components/Functions/GetFromLocalStorage';
+import { sportArray } from "./Components/Functions/SportArray";
 
 
 class App extends Component {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { SecondMenu } from './SecondMenu'
-import { live } from '../01Functions/liveArray'
+import { live } from '../Functions/liveArray'
 import { SecondMenuLive } from './SecondMenuLive'
 
 
